@@ -620,7 +620,7 @@ class App:
         if index2 == len(self.actual_moves):
             time.sleep(0.1)
             self.total_moves.extend(self.actual_moves)
-            self.agent_pos = self.vis_state[self.next_search].after if not self.death else self.maze_obj.start
+            self.agent_pos = self.vis_state[self.next_search].after if not self.death else self.start
             for pos in self.vis_state[self.next_search].known_world_update:
                 self.known_world[pos[0]][pos[1]] = -1
 
@@ -648,6 +648,7 @@ def compare_method():
         count -= 1
     
     # get Foward time and count
+    print('Repeated Forward A* Searching...')
     start_time = time.time()
     for maze in maze_list:
         m = maze[0]
@@ -656,9 +657,9 @@ def compare_method():
         fw_count += m.a_star_fw(start,end).pop().expand_count
     fw_time = time.time()-start_time
 
-    print(f"Repeated Forward A*:\n   - Number of expanded cells:{fw_count}\n   - Average expanded cells:{fw_count/50.0}\n   - Runtime:{fw_time}\n")
+    
 
-
+    print('Repeated Backward A* Searching....')
     start_time = time.time()
     for maze in maze_list:
         m = maze[0]
@@ -666,8 +667,9 @@ def compare_method():
         end = maze[2]
         bw_count += m.a_star_bw(start,end).pop().expand_count
     bw_time = time.time()-start_time
-    print(f"Repeated Backward A*:\n   - Number of expanded cells:{bw_count}\n   - Average expanded cells:{bw_count/50.0}\n   - Runtime:{bw_time}\n")
+    
 
+    print('Adative A* Searching.....\n\n')
     start_time = time.time()
     for maze in maze_list:
         m = maze[0]
@@ -675,7 +677,10 @@ def compare_method():
         end = maze[2]
         ad_count += m.a_star_adative(start,end).pop().expand_count
     ad_time = time.time()-start_time
+
+    print(f"Repeated Forward A*:\n   - Number of expanded cells:{fw_count}\n   - Average expanded cells:{fw_count/50.0}\n   - Runtime:{fw_time}\n")
     print(f"Adative A*:\n   - Number of expanded cells:{ad_count}\n   - Average expanded cells:{ad_count/50.0}\n   - Runtime:{ad_time}\n")
+    print(f"Repeated Backward A*:\n   - Number of expanded cells:{bw_count}\n   - Average expanded cells:{bw_count/50.0}\n   - Runtime:{bw_time}\n")
         
 def get_report():
     rand_m = Maze.generate_maze(ROWS,COLS)
@@ -701,10 +706,10 @@ def print_report(report, method):
     # print(f'total moves{total_moves}')
     grid_str(known_world)
 
-# App()
+App()
 
 
-compare_method()
+# compare_method()
 
 
 
